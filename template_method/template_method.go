@@ -9,23 +9,26 @@ type Display interface {
 }
 
 type AbstractDisplay struct {
-	Display
+	impl Display
 }
 
-func (s *AbstractDisplay) Show() {
-	s.Open()
+func (s *AbstractDisplay) Display() {
+	s.impl.Open()
 	for i := 0; i < 5; i++ {
-		s.Print()
+		s.impl.Print()
 	}
-	s.Close()
+	s.impl.Close()
 }
 
 type CharDisplay struct {
 	char rune
+	AbstractDisplay
 }
 
-func NewCharDisplay(char rune) Display {
-	return &CharDisplay{char: char}
+func NewCharDisplay(char rune) *CharDisplay {
+	s := &CharDisplay{char: char}
+	s.impl = s
+	return s
 }
 
 func (s *CharDisplay) Open() {
@@ -43,10 +46,13 @@ func (s *CharDisplay) Close() {
 type StringDisplay struct {
 	text string
 	with int
+	AbstractDisplay
 }
 
-func NewStringDisplay(text string) Display {
-	return &StringDisplay{text: text, with: len(text)}
+func NewStringDisplay(text string) *StringDisplay {
+	s := &StringDisplay{text: text, with: len(text)}
+	s.impl = s
+	return s
 }
 
 func (s *StringDisplay) Open() {

@@ -7,11 +7,11 @@ type Factory interface {
 	RegisterProduct(product Product)
 }
 
-type FactoryHelper struct {
+type AbstractFactory struct {
 	Factory
 }
 
-func (s *FactoryHelper) Create(owner string) Product {
+func (s *AbstractFactory) Create(owner string) Product {
 	p := s.CreateProduct(owner)
 	s.RegisterProduct(p)
 	return p
@@ -23,10 +23,13 @@ type Product interface {
 
 type IDCardFactory struct {
 	owners []string
+	AbstractFactory
 }
 
 func NewIDCardFactory() *IDCardFactory {
-	return &IDCardFactory{owners: make([]string, 0)}
+	s := &IDCardFactory{owners: make([]string, 0)}
+	s.Factory = s
+	return s
 }
 
 func (s *IDCardFactory) CreateProduct(owner string) Product {

@@ -3,11 +3,9 @@ package template_method
 import "testing"
 
 func TestTemplateMethod(t *testing.T) {
-	char := NewCharDisplay('H')
-	d1 := &AbstractDisplay{char}
-	d1.Show()
+	d1 := NewCharDisplay('H')
+	d1.Display()
 
-	str := NewStringDisplay("Hello World.")
-	d2 := &AbstractDisplay{str}
-	d2.Show()
+	d2 := NewStringDisplay("Hello World.")
+	d2.Display()
 }
